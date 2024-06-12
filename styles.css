@@ -1,0 +1,77 @@
+
+body{
+
+    background-color: black;
+}
+h1{
+    color : #04D939;
+    font-family:"play", sans-serif;
+    font-style: bold;
+    font-weight:600;
+    font-size: calc(3vh + 3vw);
+    letter-spacing: .1rem;
+}
+h1{
+    display:flex;
+    justify-content: center;
+}
+.map_container{
+    display:flex;
+    justify-content: center;
+    padding:2rem;
+}
+
+.issLocationContainer{
+    display:flex;
+    justify-content:center;
+
+}
+
+#map{
+    height : 512px;
+    width: 512px;
+    border:2px solid #04D939;
+    border-radius:5%;
+
+    
+}
+#issLocation{
+    color: white;
+    justify-content:bottom;
+    padding: 6rem;
+    color:#04D939;
+    font-family:"play", sans-serif;
+    margin: 0 auto;
+    letter-spacing: .2em;
+
+
+    
+
+}
+
+#overlay{
+    height : 512px;
+    width: 512px;
+    background:radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,237,53,1) 100%);
+    z-index:1000;
+    position:absolute;
+    opacity: 0.2;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.001);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.marker-pulse {
+    animation: pulse 2s infinite;
+}

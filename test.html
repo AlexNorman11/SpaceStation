@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISS Location Animation</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 800px;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ISS Location Animation</h1>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        async function getIssLocation() {
+            const url = "http://api.open-notify.org/iss-now.json";
+            const response = await fetch(url);
+            const data = await response.json();
+            if (response.status === 200) {
+                const latitude = +data.iss_position.latitude;
+                const longitude = +data.iss_position.longitude;
+                return { latitude, longitude };
+            } else {
+                return null;
+            }
+        }
+
+        async function updateMarker(marker) {
+            const issLocation = await getIssLocation();
+            if (issLocaion) {
+                const { latitude, longitude } = issLocation;
+                marker.setLatLng([latitude, longitude]);
+            }
+        }
+
+        const map = L.map('map').setView([0, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+        }).addTo(map);
+
+        const issIcon = L.icon({
+            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/International_Space_Station.svg',
+            iconSize: [50, 50],
+            iconAnchor: [25, 25],
+            popupAnchor: [0, -25],
+        });
+
+       
+       
+       
+       
+       
+        const marker = L.marker([0, 0], { icon: issIcon }).addTo(map);
+
+        function animate() {
+            updateMarker(marker);
+            setTimeout(animate, 1000); // Update every second
+        }
+
+        animate();
+    </script>
+</body>
+</html>
+
+
+
+
+async function getIssLocation() {
+    const url = "http://api.open-notify.org/iss-now.json";
+    const response = await fetch(url);
+    const data = await response.json();
+    if (response.status === 200) {
+        const timestamp = new Date(data.timestamp * 1000).toLocaleString();
+        const latitude = data.iss_position.latitude;
+        const longitude = data.iss_position.longitude;
+        return `ISS location at ${timestamp}: Latitude ${latitude}, Longitude ${longitude}`;
+    } else {
+        return "Failed to retrieve ISS location";
+    }
+}
+
+async function displayData() {
+    const issLocation = await getIssLocation();
+    document.getElementById("issLocation").innerHTML = issLocation;
+}
+
+
+displayData();
+setInterval(displayData, 20000);z
+
+
+
+
+var map = L.map('map').setView([0, 0], 2);
+L.tileLayer ('https://api.maptiler.com/maps/basic-v2-dark/{z}/{x}/{y}.png?key=B6Fr5deZM4mNTIzaRh6T',{
+    attribution:'<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+}).addTo(map)
+
+
+const issIcon = L.icon({
+    iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
+    iconSize: [50, 50],
+    iconAnchor: [25, 25],
+    popupAnchor: [0, -25],
+});
+
+
+const marker = L.marker([0,0], {icon: issIcon}).addTo(map);
+
+
+async function updateMarker(marker) {
+    const issLocation = getIssLocation();
+    if (issLocation) {
+        const { latitude, longitude } = issLocation;
+        marker.setLatLng([latitude, longitude]);
+    }
+}
+
+function animate() {
+    updateMarker(marker);
+    setTimeout(animate, 1000); // Update every second
+}
+
+animate();
+
+
